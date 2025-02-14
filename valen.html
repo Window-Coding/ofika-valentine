@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Chocolate Surprise</title>
+    <style>
+        /* Warna dan Animasi */
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: linear-gradient(45deg, #FFB6C1, #FF69B4, #FF1493, #DB7093);
+            background-size: 400% 400%;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            animation: backgroundPulse 12s ease-in-out infinite;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: background 1s ease-in-out;
+        }
+
+        @keyframes backgroundPulse {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            font-size: 1em;
+            text-shadow: 0 0 10px rgba(255, 20, 147, 0.8), 0 0 20px rgba(255, 20, 147, 0.6), 0 0 30px rgba(255, 20, 147, 0.4);
+            margin: 20px 10px;
+        }
+
+        .container {
+            text-align: center;
+            padding: 10px;
+            width: 100%;
+        }
+
+        .chocolate {
+            font-size: 3em;
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
+            position: absolute;
+            user-select: none;
+            animation: float-around 8s ease-in-out infinite;
+        }
+
+        @keyframes float-around {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(40px, 40px) rotate(180deg); }
+            100% { transform: translate(0, 0) rotate(360deg); }
+        }
+
+        .chocolate:hover {
+            transform: scale(1.2);
+            filter: drop-shadow(0 0 10px rgba(255, 20, 147, 0.7));
+        }
+
+        #message h2 {
+            /* animation: fadeIn 2s ease-in-out; */
+            font-size: 1.2em;
+        }
+
+        #message {
+            display: none;
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(219, 112, 147, 0.5);
+            animation: fadeIn 1s ease-in-out;
+            color: #FF1493;
+            z-index: 1000;
+            text-align: center;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+            to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+
+        .floating-chocolate {
+            position: absolute;
+            font-size: 2.5em;
+            pointer-events: none;
+            animation: float 2.5s ease-out forwards;
+        }
+
+        @keyframes float {
+            from { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; }
+            to { transform: translateY(-100vh) rotate(360deg) scale(0); opacity: 0; }
+        }
+
+        #clickCounter {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 8px;
+            border-radius: 8px;
+            font-size: 1em;
+            color: #FF1493;
+            z-index: 1000;
+        }
+
+        #resetButton {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px;
+            background-color: #FF1493;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #FF1493;
+            animation: confetti-fall 3s ease-out infinite;
+        }
+
+        @keyframes confetti-fall {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(100vh) rotate(360deg); }
+        }
+
+        span {
+            font-size: 100px;
+        }
+
+        /* Animasi Hati */
+        .heart {
+            position: absolute;
+            font-size: 2em;
+            color: #FF1493;
+            animation: fall 5s linear infinite;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); }
+            100% { transform: translateY(110vh) rotate(360deg); }
+        }
+
+        /* Tombol Musik */
+        #musicButton {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            padding: 10px;
+            background-color: #FF1493;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        /* Tombol Mode Gelap/Terang */
+        #themeButton {
+            position: fixed;
+            bottom: 20px;
+            left: 100px;
+            padding: 10px;
+            background-color: #FF1493;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        /* Efek Kembang Api */
+        .firework {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #FF1493;
+            border-radius: 50%;
+            animation: explode 1.5s ease-out infinite;
+        }
+
+        @keyframes explode {
+            0% { transform: scale(0); opacity: 1; }
+            100% { transform: scale(10); opacity: 0; }
+        }
+
+        /* Boneka Beruang */
+        .bear {
+            position: absolute;
+            font-size: 4em;
+            cursor: pointer;
+            animation: moveBear 10s linear infinite;
+        }
+
+        @keyframes moveBear {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(200px, 100px); }
+            50% { transform: translate(400px, 0); }
+            75% { transform: translate(200px, -100px); }
+            100% { transform: translate(0, 0); }
+        }
+
+        /* Efek Salju */
+        .snowflake {
+            position: absolute;
+            font-size: 1.5em;
+            color: white;
+            animation: fall 5s linear infinite;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); }
+            100% { transform: translateY(110vh) rotate(360deg); }
+        }
+
+        /* Tombol Ubah Warna Latar Belakang */
+        #colorButton {
+            position: fixed;
+            bottom: 20px;
+            left: 180px;
+            padding: 10px;
+            background-color: #FF1493;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="header">❤️ Selamat Hari Valentine ❤️</h1>
+    <div id="clickCounter">Coklat: 0</div>
+    <div class="Tombol">
+        <button id="resetButton">Reset</button>
+        <button id="musicButton">🎵 Putar Musik</button>
+        <button id="themeButton">🌙 Mode Gelap</button>
+        <button id="colorButton">🎨 Ubah Warna</button>
+    </div>
+        <div class="container">
+        <div id="message">
+            <h2>🎉 Selamat! 🎉</h2>
+            <h2>
+                Maaf ya aku baru bisa kasih coklat virtual 🍫<br>
+                Besok aku akan memberi seperangkat alat sholat 🕌✨<br>
+                Insya Allah ❤
+            </h2>
+            <div class="header">
+                <span>🍫</span>
+            </div>
+        </div>
+    </div>
+
+    <audio id="backgroundMusic" loop>
+        <source src="romantic-music.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <audio id="clickSound">
+        <source src="click-sound.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <audio id="bearSound">
+        <source src="bear-sound.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        let clicks = 0;
+        const required_clicks = 20;
+        const counter = document.getElementById('clickCounter');
+        const message = document.getElementById('message');
+        const resetButton = document.getElementById('resetButton');
+        const musicButton = document.getElementById('musicButton');
+        const themeButton = document.getElementById('themeButton');
+        const colorButton = document.getElementById('colorButton');
+        const backgroundMusic = document.getElementById('backgroundMusic');
+        const clickSound = document.getElementById('clickSound');
+        const bearSound = document.getElementById('bearSound');
+
+        // Fungsi untuk membuat cokelat
+        function createChocolate() {
+            const chocolate = document.createElement('div');
+            chocolate.className = 'chocolate';
+            chocolate.textContent = '🍫';
+            chocolate.style.left = Math.random() * (window.innerWidth - 50) + 'px';
+            chocolate.style.top = Math.random() * (window.innerHeight - 50) + 'px';
+            document.body.appendChild(chocolate);
+
+            chocolate.onclick = () => {
+                clicks++;
+                counter.textContent = `Coklat: ${clicks}`;
+                createChocolateBurst(chocolate.offsetLeft, chocolate.offsetTop);
+                chocolate.remove();
+                clickSound.play();
+
+                if (clicks >= required_clicks) {
+                    showFinale();
+                }
+            };
+        }
+
+        // Fungsi untuk membuat efek ledakan cokelat
+        function createChocolateBurst(x, y) {
+            const emojis = ['🍫', '✨', '💝', '💖'];
+            for (let i = 0; i < 10; i++) {
+                const floatingChoc = document.createElement('div');
+                floatingChoc.className = 'floating-chocolate';
+                floatingChoc.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                floatingChoc.style.left = x + 'px';
+                floatingChoc.style.top = y + 'px';
+                document.body.appendChild(floatingChoc);
+                setTimeout(() => floatingChoc.remove(), 2500);
+            }
+        }
+
+        // Fungsi untuk menampilkan pesan akhir
+        function showFinale() {
+            document.querySelectorAll('.chocolate').forEach(c => c.remove());
+            setTimeout(() => {
+                message.style.display = 'block';
+                resetButton.style.display = 'block';
+                createConfetti();
+                createFireworks();
+            }, 100);
+        }
+
+        // Fungsi untuk membuat efek confetti
+        function createConfetti() {
+            const confettiCount = 100;
+            for (let i = 0; i < confettiCount; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * window.innerWidth + 'px';
+                confetti.style.top = Math.random() * window.innerHeight + 'px';
+                confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                document.body.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 3000);
+            }
+        }
+
+        // Fungsi untuk membuat efek kembang api
+        function createFireworks() {
+            const fireworkCount = 20;
+            for (let i = 0; i < fireworkCount; i++) {
+                const firework = document.createElement('div');
+                firework.className = 'firework';
+                firework.style.left = Math.random() * window.innerWidth + 'px';
+                firework.style.top = Math.random() * window.innerHeight + 'px';
+                firework.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                document.body.appendChild(firework);
+                setTimeout(() => firework.remove(), 1500);
+            }
+        }
+
+        // Fungsi untuk mereset permainan
+        resetButton.onclick = () => {
+            clicks = 0;
+            counter.textContent = `Coklat: ${clicks}`;
+            message.style.display = 'none';
+            resetButton.style.display = 'none';
+            document.querySelectorAll('.confetti').forEach(c => c.remove());
+            document.querySelectorAll('.firework').forEach(f => f.remove());
+            for (let i = 0; i < 1; i++) {
+                createChocolate();
+            }
+        };
+
+        // Fungsi untuk memutar/menghentikan musik
+        musicButton.onclick = () => {
+            if (backgroundMusic.paused) {
+                backgroundMusic.play();
+                musicButton.textContent = "⏸️ Hentikan Musik";
+            } else {
+                backgroundMusic.pause();
+                musicButton.textContent = "🎵 Putar Musik";
+            }
+        };
+
+        // Fungsi untuk mengubah tema
+        themeButton.onclick = () => {
+            document.body.classList.toggle('dark-theme');
+            if (document.body.classList.contains('dark-theme')) {
+                themeButton.textContent = "☀️ Mode Terang";
+            } else {
+                themeButton.textContent = "🌙 Mode Gelap";
+            }
+        };
+
+        // Fungsi untuk mengubah warna latar belakang
+        colorButton.onclick = () => {
+            const colors = ['#FFB6C1', '#FF69B4', '#FF1493', '#DB7093', '#FFC0CB', '#FFA07A', '#FF7F50', '#FF4500'];
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            document.body.style.background = randomColor;
+        };
+
+        // Fungsi untuk membuat boneka beruang
+        function createBear() {
+            const bear = document.createElement('div');
+            bear.className = 'bear';
+            bear.textContent = '🐻';
+            bear.style.left = Math.random() * (window.innerWidth - 100) + 'px';
+            bear.style.top = Math.random() * (window.innerHeight - 100) + 'px';
+            document.body.appendChild(bear);
+
+            bear.onclick = () => {
+                bearSound.play();
+                showSecretMessage();
+                bear.remove();
+            };
+        }
+
+        // Fungsi untuk menampilkan pesan rahasia
+        function showSecretMessage() {
+            const secretMessage = document.createElement('div');
+            secretMessage.className = 'header';
+            secretMessage.textContent = 'Selamat Hari Valentine! ❤️';
+            secretMessage.style.position = 'absolute';
+            secretMessage.style.left = Math.random() * (window.innerWidth - 200) + 'px';
+            secretMessage.style.top = Math.random() * (window.innerHeight - 100) + 'px';
+            document.body.appendChild(secretMessage);
+            setTimeout(() => secretMessage.remove(), 3000);
+        }
+
+        // Membuat cokelat awal
+        for (let i = 0; i < 1; i++) {
+            createChocolate();
+        }
+
+        // Membuat cokelat secara berkala
+        setInterval(() => {
+            if (document.querySelectorAll('.chocolate').length < 20 && clicks < required_clicks) {
+                createChocolate();
+            }
+        }, 100);
+
+        // Membuat animasi hati yang jatuh
+        setInterval(() => {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.textContent = '❤️';
+            heart.style.left = Math.random() * window.innerWidth + 'px';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 5000);
+        }, 1000);
+
+        // Membuat efek salju
+        setInterval(() => {
+            const snowflake = document.createElement('div');
+            snowflake.className = 'snowflake';
+            snowflake.textContent = '❄️';
+            snowflake.style.left = Math.random() * window.innerWidth + 'px';
+            document.body.appendChild(snowflake);
+            setTimeout(() => snowflake.remove(), 5000);
+        }, 500);
+
+        // Membuat boneka beruang
+        setInterval(() => {
+            createBear();
+        }, 5000);
+    </script>
+</body>
+</html>
